@@ -72,10 +72,6 @@ char *str2md5(const char *str, int length) {
 }
 
 int main(){
-	char string[20] = "hello world"
-	MD5Context md5;
-	MD5Init(&md5);
-	MD5Update(&md5, string, strlen(string));
-	MD5Final(digest, &md5);	
+	
 	return 0;
 }
