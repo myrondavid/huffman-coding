@@ -21,30 +21,33 @@ int get_file_name_size(char *src_filename){
 	return size-size_ext-1;
 }
 
-/**
-void get_file_name(char *src_filename, char* name){
-
-}
-**/
-
-/**
-int main(){
-
-	char string[20] = "teste.txtasdasd";
-	int size = get_file_name_size(string);
-	char filename[size+1];
+char *get_file_name(char *src_filename){
+	int size = get_file_name_size(src_filename);
+	char *filename = (char*)malloc(sizeof(char)*size+1);
 	int i;
 	for(i = 0; i < size; i++){
-		filename[i] = string[i];
+		filename[i] = src_filename[i];
 	}
 	filename[i] = '\0';	
-	printf("%s\n", filename);
-
-	return 0;
+	return filename;
 }
-**/
 
-char *str2md5(const char *str, int length) {
+char *get_extension_name(char *src_filename){
+	int size_e = get_file_extesion_size(src_filename);
+	int size_f = get_file_name_size(src_filename);
+	char *extension = (char*)malloc(sizeof(char)*size_e);
+	int i;
+	for(i = size_f; i < strlen(src_filename); i++){
+		extension[i-size_f] = src_filename[i]; 
+	}
+	extension[i-size_f+1] = '\0';
+	return extension;
+}
+
+
+//recebe um string com a senha, retorna uma string no formato MD5
+/**
+char *string_to_md5(const char *str, int length) {
     int n;
     MD5_CTX c;
     unsigned char digest[16];
@@ -70,8 +73,12 @@ char *str2md5(const char *str, int length) {
 
     return out;
 }
-
+**/
 int main(){
-	
+	char string[15] = "teste.xxtxxt";
+	char *saida = get_extension_name(string);
+	printf("%s\n", saida);
+	printf("tamanho nome: %d\n", get_file_name_size(string));
+	printf("tamanho extensao: %d\n", get_file_extesion_size(string));
 	return 0;
 }
