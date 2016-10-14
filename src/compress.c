@@ -8,7 +8,7 @@
 
 #define ASCII_SIZE 256
 
-void compress(unsigned char *file_content, long int file_size, char *dest_filename, char *src_filename) {
+void compress(unsigned char *file_content, long int file_size, char *dest_filename) {
   int i, frequency[ASCII_SIZE] = {0};
   Heap* heap = create_heap(ASCII_SIZE);
   Node* bt = NULL;
