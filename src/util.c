@@ -53,8 +53,8 @@ char *get_extension_name(char *src_filename){
 
 
 //recebe um string com a senha, retorna uma string no formato MD5
-/**
-char *string_to_md5(const char *str, int length) {
+
+char *string_to_md5(const char *str, int str_size){
     int n;
     MD5_CTX c;
     unsigned char digest[16];
@@ -62,13 +62,13 @@ char *string_to_md5(const char *str, int length) {
 
     MD5_Init(&c);
 
-    while (length > 0) {
-        if (length > 512) {
+    while (str_size > 0) {
+        if (str_size > 512) {
             MD5_Update(&c, str, 512);
         } else {
-            MD5_Update(&c, str, length);
+            MD5_Update(&c, str, str_size);
         }
-        length -= 512;
+        str_size -= 512;
         str += 512;
     }
 
@@ -80,7 +80,8 @@ char *string_to_md5(const char *str, int length) {
 
     return out;
 }
-**/
+
+/**
 int main(){
 	char string[15] = "teste.xxtxxt";
 	char *saida = get_extension_name(string);
@@ -89,3 +90,4 @@ int main(){
 	printf("tamanho extensao: %d\n", get_file_extesion_size(string));
 	return 0;
 }
+**/
