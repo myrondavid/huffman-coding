@@ -21,7 +21,7 @@ int get_name_size(char *src_filename){
 	return size-size_ext-1;
 }
 
-char get_byte(int size_ext, int size_password){
+unsigned char get_byte(int size_ext, int size_password){
 	unsigned char byte;
 	byte=(size_ext<<5);
 	byte|=size_password;
