@@ -5,16 +5,23 @@
 #include "../inc/heap.h"
 #include "../inc/huffman_tree.h"
 #include "../inc/table.h"
+#include "../inc/util.h"
 
 #define ASCII_SIZE 256
 
-void compress(unsigned char *file_content, long int file_size, char *dest_filename) {
+void compress(unsigned char *file_content, long int file_size, char *dest_filename, char* src_filename) {
   int i, frequency[ASCII_SIZE] = {0};
   Heap* heap = create_heap(ASCII_SIZE);
   Node* bt = NULL;
   int tree_size, trash_size;
+  int ext_size, filename_size;
   unsigned char byte1;
   unsigned char byte2;
+  unsigned char byte3;
+
+
+  ext_size = get_extesion_size(src_filename); //recupera o tamanho da extensão
+  filename_size = get_name_size(src_filename); //recupera o tamanho do nome do arquivo
 
   for(i = 0; i < file_size; i++){
 
@@ -51,8 +58,17 @@ void compress(unsigned char *file_content, long int file_size, char *dest_filena
   putc(byte2, dest_file);                                                 /* Prints second byte in the destination file */
 
   print_tree_in_file(bt, dest_file);                                      /* Prints the tree in the destination file */
-
   free_tree(bt);
+
+
+  byte3 = (ext_size<<5); //seta os 3 primeiros bits do byte com o tamanho da extensão
+  putc(byte3, dest_file);  //salva o byte com o tamanho da extensão
+
+  char *ext = get_extension_name(src_filename); //recupera a extensão do nome do arquivo
+  int cont;
+  for(cont = 0; cont < ext_size; cont++){
+    putc(ext[cont], dest_file); //salva cada byte da extensão no arquivo
+  }
 
   trash_size = write_in_file(file_content, file_size, dest_file, table);  /* Prints the compressed content and returns the trash size */
   free_table(table, ASCII_SIZE);

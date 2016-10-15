@@ -12,7 +12,7 @@ int get_extesion_size(char *src_filename);
 
 int get_name_size(char *src_filename);
 
-char get_byte(int size_ext, int size_password);
+unsigned char get_byte(int size_ext, int size_password);
 
 char *get_file_name(char *src_filename);
 

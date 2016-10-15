@@ -3,10 +3,10 @@ DEPS = inc/huffman_tree.h inc/heap.h inc/table.h inc/compress.h inc/decompress.h
 
 
 compile:
-	gcc $(OBJS) $(DEPS) -o huffman -lm
+	gcc $(OBJS) $(DEPS) -lssl -lcrypto -o huffman -lm
 
 test:
-	gcc src/teste.c -lssl -lcrypto -o teste
+	gcc src/teste.c inc/util.h src/util.c -lssl -lcrypto -o teste
 
 clean:
 	rm -f huffman
