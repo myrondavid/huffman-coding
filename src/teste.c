@@ -10,8 +10,10 @@
 
 
 int main() {
-    char string[100] = "senha";
+    char string[100] = "1234";
 	char *saida = string_to_md5(string, strlen(string));
+	char t = 7;
 	printf("%s\n", saida);
+	printf("%c", 43);
 	return 0;
 }

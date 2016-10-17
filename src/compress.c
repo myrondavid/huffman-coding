@@ -19,8 +19,8 @@ void compress(unsigned char *file_content, long int file_size, char *dest_filena
   unsigned char byte2;
   unsigned char byte3;
   unsigned char byte4;
-  char password[100];
-  char *password_md5;
+  unsigned char password[100];
+  unsigned char *password_md5;
 
   printf("Insira uma senha para o arquivo: ");
   scanf("%s", password);
@@ -70,7 +70,7 @@ void compress(unsigned char *file_content, long int file_size, char *dest_filena
   byte3 = (ext_size<<5); //seta os 3 primeiros bits do byte com o tamanho da extensão
   putc(byte3, dest_file);  //salva o byte com o tamanho da extensão
 
-  char *ext = get_extension_name(src_filename); //recupera a extensão do nome do arquivo compactado
+  unsigned char *ext = get_extension_name(src_filename); //recupera a extensão do nome do arquivo compactado
   int cont;
   for(cont = 0; cont < ext_size; cont++){
     putc(ext[cont], dest_file); //salva cada byte da extensão no arquivo compactado
@@ -83,7 +83,7 @@ void compress(unsigned char *file_content, long int file_size, char *dest_filena
   byte4 = filename_size; //byte que armazena o tamanho do nome do arquivo sem a extensão
   putc(byte4, dest_file); //salva o byte com o tamanho do nome do arquivo no arquivo compactado
 
-  char *filename = get_file_name(src_filename);
+  unsigned char *filename = get_file_name(src_filename);
   for(cont = 0; cont < filename_size; cont++){
     putc(filename[cont], dest_file); //salva cada caractere do nome do arquivo no arquivo compactado
   }

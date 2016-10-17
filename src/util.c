@@ -27,7 +27,7 @@ unsigned char get_byte(int size_ext, int size_password){
 	return byte;
 }
 
-char *get_file_name(char *src_filename){
+unsigned char *get_file_name(char *src_filename){
 	int size = get_name_size(src_filename);
 	char *filename = (char*)malloc(sizeof(char)*size+1);
 	int i;
@@ -38,7 +38,7 @@ char *get_file_name(char *src_filename){
 	return filename;
 }
 
-char *get_extension_name(char *src_filename){
+unsigned char *get_extension_name(char *src_filename){
 	int size_e = get_extesion_size(src_filename);
 	int size_f = get_name_size(src_filename);
 	char *extension = (char*)malloc(sizeof(char)*size_e+1);
@@ -53,11 +53,11 @@ char *get_extension_name(char *src_filename){
 
 
 //recebe um string com a senha, retorna uma string no formato MD5
-char *string_to_md5(const char *str, int str_size){
+unsigned char *string_to_md5(const char *str, int str_size){
     int n;
     MD5_CTX c;
     unsigned char digest[16];
-    char *out = (char*)malloc(33);
+    unsigned char *out = (unsigned char*)malloc(33);
 
     MD5_Init(&c);
 

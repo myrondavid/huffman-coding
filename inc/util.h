@@ -14,11 +14,11 @@ int get_name_size(char *src_filename);
 
 unsigned char get_byte(int size_ext, int size_password);
 
-char *get_file_name(char *src_filename);
+unsigned char *get_file_name(char *src_filename);
 
-char *get_extension_name(char *src_filename);
+unsigned char *get_extension_name(char *src_filename);
 
-char *string_to_md5(const char *str, int str_size);
+unsigned char *string_to_md5(const char *str, int str_size);
 
 
 #endif
