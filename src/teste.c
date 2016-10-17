@@ -10,10 +10,8 @@
 
 
 int main() {
-    char string[15] = "teste.xxtxxt";
-	char *saida = get_extension_name(string);
+    char string[100] = "senha";
+	char *saida = string_to_md5(string, strlen(string));
 	printf("%s\n", saida);
-	printf("tamanho nome: %d\n", get_name_size(string));
-	printf("tamanho extensao: %d\n", get_extesion_size(string));
 	return 0;
 }
