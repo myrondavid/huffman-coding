@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../inc/compress.h"
 #include "../inc/decompress.h"
+#include "../inc/util.h"
 
 void help();
 
@@ -11,6 +12,8 @@ int main(int argc, char const *argv[]) {
   char *src_filename, *dest_filename, option[3];
   unsigned char *file_content;
   long int file_size;
+  //unsigned char senha[100];
+  //unsigned char *senhaMD5;
 
   if(argc == 1) {
     help();
@@ -54,6 +57,10 @@ int main(int argc, char const *argv[]) {
   if(strcmp(option, "-c") == 0){
     compress(file_content, file_size, dest_filename, src_filename);
   } else {
+    //printf("Insira a senha para descompactar o arquivo: ");
+    //scanf("%s", senha);
+    //senhaMD5 = string_to_md5(senha, strlen(senha));
+    //printf("%s", senhaMD5);
     decompress(file_content, file_size, dest_filename);
   }
 
