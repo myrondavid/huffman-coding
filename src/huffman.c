@@ -38,6 +38,11 @@ int main(int argc, char const *argv[]) {
       exit(1);
     }
 
+    if(get_extesion_size(src_filename)>6){
+      printf("Extension should contain a maximum of 6 characters\n");
+      exit(1);
+    }
+
     file = fopen(src_filename, "r");
 
     if(file == NULL) {
