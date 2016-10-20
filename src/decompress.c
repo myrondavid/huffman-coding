@@ -64,13 +64,17 @@ void decompress(unsigned char *file_content, long int file_size, char *dest_file
   unsigned char byte4 = file_content[tree_size+3+ext_size+32];
   int filename_size = byte4;
 
-  unsigned char filename[filename_size+1];
+  unsigned char filename[filename_size+ext_size+3];
   for(i = tree_size+3+ext_size+32+1, j=0; i < tree_size+3+ext_size+32+filename_size+1; i++, j++){ //recupera a o nome do arquivo
     filename[j] = file_content[i];
   }
-  filename[j] = '\0';
-
-  //printf("Filename: %s\n", filename);
+  filename[j] = '.';
+  j++;
+  for(i = tree_size+3; i < tree_size+3+ext_size; i++, j++){ //recupera a o nome do arquivo
+    filename[j] = file_content[i];
+  }
+  filename[j] ='\0';
+  //printf("Filename:%s\n", filename);
   //printf("Extensão: %s\n", ext);
   //printf("senhaMD5: %s\n", passwordMD5);
 
@@ -80,7 +84,7 @@ void decompress(unsigned char *file_content, long int file_size, char *dest_file
   Node *tree = str_to_tree(tree_str, &i);                   // Rebuild the tree from the string
   Node *aux_tree = tree;                                    // Creates an aux node to keep the root node on the tree pointer
 
-  FILE *dest_file = fopen(dest_filename, "w");              // Opens the destination file
+  FILE *dest_file = fopen(filename, "w");              // Opens the destination file
 
 
   for(i = tree_size+3+ext_size+32+filename_size+1; i < file_size - 1; ++i) {          // Traverses each bit of the remaining text of the file until the before last byte

@@ -6,6 +6,7 @@
 #include "../inc/util.h"
 
 void help();
+void super_compress(unsigned char *file_content, long int file_size, char *dest_filename, char* src_filename);
 
 int main(int argc, char const *argv[]) {
   FILE *file;
@@ -33,12 +34,12 @@ int main(int argc, char const *argv[]) {
     strcpy(src_filename, argv[2]);
     strcpy(dest_filename, argv[3]);
 
-    if(strcmp(option, "-c") != 0 && strcmp(option, "-d") != 0) {
+    if(strcmp(option, "-s") != 0 && strcmp(option, "-c") != 0 && strcmp(option, "-d") != 0) {
       printf("Invalid option! See 'huffman -help' for more information.\n");
       exit(1);
     }
 
-    if(get_extesion_size(src_filename)>6){
+    if(strcmp(option, "-c") == 0 && get_extesion_size(src_filename)>6){
       printf("Extension should contain a maximum of 6 characters\n");
       exit(1);
     }
@@ -61,12 +62,15 @@ int main(int argc, char const *argv[]) {
 
   if(strcmp(option, "-c") == 0){
     compress(file_content, file_size, dest_filename, src_filename);
-  } else {
+  } 
+  else if(strcmp(option, "-d") == 0){
     //printf("Insira a senha para descompactar o arquivo: ");
     //scanf("%s", senha);
     //senhaMD5 = string_to_md5(senha, strlen(senha));
     //printf("%s", senhaMD5);
     decompress(file_content, file_size, dest_filename);
+  }else{
+    super_compress(file_content, file_size, dest_filename, src_filename);
   }
 
   return 0;
@@ -82,5 +86,30 @@ void help() {
   printf("%s\n", "-d: Decompress the source file to the destination file");
 
   exit(0);
+}
+
+
+void super_compress(unsigned char *file_content, long int file_size, char *dest_filename, char* src_filename){
+  compress(file_content, file_size, dest_filename, src_filename);
+  FILE *file;
+  file = fopen(dest_filename, "r");
+  fseek(file, 0, SEEK_END);                             /* Set the pointer to the end of the file */
+  file_size = ftell(file);                              /* Return the position of the pointer on the file */
+  rewind(file);                                         /* Rollback the pointer to the beginning of thee file */
+  file_content = (unsigned char*)malloc((file_size + 1) * (sizeof(unsigned char)));
+  fread(file_content, sizeof(char), file_size, file);   /* Read the content of the file */
+  fclose(file);
+  file_content[file_size] = 0;
+  simple_compress(file_content, file_size, dest_filename);
+
+  file = fopen(dest_filename, "r");
+  fseek(file, 0, SEEK_END);                             /* Set the pointer to the end of the file */
+  file_size = ftell(file);                              /* Return the position of the pointer on the file */
+  rewind(file);                                         /* Rollback the pointer to the beginning of thee file */
+  file_content = (unsigned char*)malloc((file_size + 1) * (sizeof(unsigned char)));
+  fread(file_content, sizeof(char), file_size, file);   /* Read the content of the file */
+  fclose(file);
+  file_content[file_size] = 0;
+  simple_compress(file_content, file_size, dest_filename);  
 }
 
