@@ -20,6 +20,8 @@ unsigned char *get_extension_name(char *src_filename);
 
 unsigned char *string_to_md5(const char *str, int str_size);
 
+void simple_decompress(unsigned char *file_content, long int file_size, char *dest_filename) ;
+
 void simple_compress(unsigned char *file_content, long int file_size, char *dest_filename);
 
 

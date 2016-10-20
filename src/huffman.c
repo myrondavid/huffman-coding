@@ -7,6 +7,7 @@
 
 void help();
 void super_compress(unsigned char *file_content, long int file_size, char *dest_filename, char* src_filename);
+void super_decompress(unsigned char *file_content, long int file_size, char *dest_filename);
 
 int main(int argc, char const *argv[]) {
   FILE *file;
@@ -34,7 +35,7 @@ int main(int argc, char const *argv[]) {
     strcpy(src_filename, argv[2]);
     strcpy(dest_filename, argv[3]);
 
-    if(strcmp(option, "-s") != 0 && strcmp(option, "-c") != 0 && strcmp(option, "-d") != 0) {
+    if(strcmp(option, "-x") != 0 && strcmp(option, "-s") != 0 && strcmp(option, "-c") != 0 && strcmp(option, "-d") != 0) {
       printf("Invalid option! See 'huffman -help' for more information.\n");
       exit(1);
     }
@@ -69,8 +70,11 @@ int main(int argc, char const *argv[]) {
     //senhaMD5 = string_to_md5(senha, strlen(senha));
     //printf("%s", senhaMD5);
     decompress(file_content, file_size, dest_filename);
-  }else{
+  }
+  else if(strcmp(option, "-s") == 0){
     super_compress(file_content, file_size, dest_filename, src_filename);
+  }else{
+    super_decompress(file_content,file_size,dest_filename);
   }
 
   return 0;
@@ -91,6 +95,7 @@ void help() {
 
 void super_compress(unsigned char *file_content, long int file_size, char *dest_filename, char* src_filename){
   compress(file_content, file_size, dest_filename, src_filename);
+  
   FILE *file;
   file = fopen(dest_filename, "r");
   fseek(file, 0, SEEK_END);                             /* Set the pointer to the end of the file */
@@ -100,6 +105,7 @@ void super_compress(unsigned char *file_content, long int file_size, char *dest_
   fread(file_content, sizeof(char), file_size, file);   /* Read the content of the file */
   fclose(file);
   file_content[file_size] = 0;
+  
   simple_compress(file_content, file_size, dest_filename);
 
   file = fopen(dest_filename, "r");
@@ -110,6 +116,34 @@ void super_compress(unsigned char *file_content, long int file_size, char *dest_
   fread(file_content, sizeof(char), file_size, file);   /* Read the content of the file */
   fclose(file);
   file_content[file_size] = 0;
+  
   simple_compress(file_content, file_size, dest_filename);  
+}
+
+void super_decompress(unsigned char *file_content, long int file_size, char *dest_filename){
+  FILE *file;
+  simple_decompress(file_content, file_size, dest_filename);
+  
+  file = fopen(dest_filename, "r");
+  fseek(file, 0, SEEK_END);                             /* Set the pointer to the end of the file */
+  file_size = ftell(file);                              /* Return the position of the pointer on the file */
+  rewind(file);                                         /* Rollback the pointer to the beginning of thee file */
+  file_content = (unsigned char*)malloc((file_size + 1) * (sizeof(unsigned char)));
+  fread(file_content, sizeof(char), file_size, file);   /* Read the content of the file */
+  fclose(file);
+  file_content[file_size] = 0;
+
+  simple_decompress(file_content, file_size, dest_filename);
+
+  file = fopen(dest_filename, "r");
+  fseek(file, 0, SEEK_END);                             /* Set the pointer to the end of the file */
+  file_size = ftell(file);                              /* Return the position of the pointer on the file */
+  rewind(file);                                         /* Rollback the pointer to the beginning of thee file */
+  file_content = (unsigned char*)malloc((file_size + 1) * (sizeof(unsigned char)));
+  fread(file_content, sizeof(char), file_size, file);   /* Read the content of the file */
+  fclose(file);
+  file_content[file_size] = 0;
+
+  decompress(file_content, file_size, dest_filename); 
 }
 
